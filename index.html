@@ -214,7 +214,7 @@
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         Play
       </button>
-      <a class="btn btn-dl" href="gate-ep1.mp4" download="GATE-S01E01-Hindi.mp4">
+      <a class="btn btn-dl" href="https://github.com/modijiff65-sys/gateflix/releases/download/v1.0/gate-ep1.mp4" download="GATE-S01E01-Hindi.mp4">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 21h16"/></svg>
         Download
       </a>
@@ -283,9 +283,13 @@
     </button>
     <div class="player-title">GATE · S1 E1 · Hindi</div>
   </div>
+  <div id="vfallback" style="display:none;position:absolute;inset:0;z-index:6;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#000;text-align:center;padding:24px">
+    <div style="font-size:17px;color:#ddd;max-width:420px;line-height:1.5">Is browser mein direct stream nahi chal raha. Neeche se download karke dekh lo.</div>
+    <a class="btn btn-play" href="'+URL+'" download="GATE-S01E01-Hindi.mp4">Download episode</a>
+  </div>
   <video id="vid" controls playsinline preload="metadata" poster="hero.jpg">
-    <source src="gate-ep1.mp4" type="video/mp4" />
-    Aapka browser video support nahi karta. <a href="gate-ep1.mp4">Download</a> kar lo.
+    <source src="https://github.com/modijiff65-sys/gateflix/releases/download/v1.0/gate-ep1.mp4" type="video/mp4" />
+    Aapka browser video support nahi karta. <a href="https://github.com/modijiff65-sys/gateflix/releases/download/v1.0/gate-ep1.mp4">Download</a> kar lo.
   </video>
 </div>
 
@@ -297,6 +301,11 @@
 
   const player = document.getElementById('player');
   const vid = document.getElementById('vid');
+
+  vid.addEventListener('error', () => {
+    const box = document.getElementById('vfallback');
+    if (box) box.style.display = 'flex';
+  });
 
   function play(){
     player.classList.add('on');
