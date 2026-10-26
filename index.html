@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GATEFLIX — GATE · Season 1</title>
+<meta name="description" content="GATE: Jieitai Kanochi nite, Kaku Tatakaeri — Season 1, Episode 1. Hindi dubbed." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127871;</text></svg>" />
+<style>
+  :root{
+    --red:#e50914;
+    --bg:#141414;
+    --bg2:#181818;
+    --grey:#b3b3b3;
+    --white:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--white);}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    display:flex;align-items:center;gap:26px;
+    padding:18px 4%;
+    background:linear-gradient(180deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.55) 60%,transparent 100%);
+    transition:background .3s;
+  }
+  nav.solid{background:#141414;box-shadow:0 2px 12px rgba(0,0,0,.5)}
+  .logo{
+    font-size:26px;font-weight:900;letter-spacing:-1.2px;color:var(--red);
+    text-transform:uppercase;white-space:nowrap;
+  }
+  .logo span{color:#fff}
+  .navlinks{display:flex;gap:20px;font-size:14px;color:#e5e5e5}
+  .navlinks a{opacity:.85;transition:opacity .2s}
+  .navlinks a:hover{opacity:1}
+  .navlinks a.active{font-weight:700;opacity:1}
+  .navright{margin-left:auto;display:flex;align-items:center;gap:18px}
+  .icon{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;opacity:.9}
+  .avatar{
+    width:32px;height:32px;border-radius:6px;
+    background:linear-gradient(135deg,#7c5cff,#b06cff);
+    display:grid;place-items:center;font-size:13px;font-weight:800;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;min-height:88vh;display:flex;align-items:flex-end;
+    padding:0 4% 90px;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background-image:url('hero.jpg');
+    background-size:cover;background-position:center 35%;
+  }
+  .hero-bg::after{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(90deg,rgba(20,20,20,.95) 0%,rgba(20,20,20,.75) 35%,rgba(20,20,20,.15) 65%,rgba(20,20,20,.55) 100%),
+      linear-gradient(0deg,var(--bg) 2%,rgba(20,20,20,.4) 30%,transparent 60%);
+  }
+  .hero-inner{position:relative;z-index:2;max-width:620px}
+  .badge-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .n-badge{
+    background:var(--red);color:#fff;font-size:11px;font-weight:900;
+    letter-spacing:1.5px;padding:3px 7px;border-radius:3px;
+  }
+  .rank{font-size:12px;color:#e5e5e5;letter-spacing:.5px}
+  h1{
+    font-size:clamp(52px,8vw,96px);font-weight:900;letter-spacing:-3px;
+    line-height:.92;margin-bottom:14px;
+    text-shadow:0 6px 30px rgba(0,0,0,.6);
+  }
+  h1 .thin{font-weight:300;letter-spacing:2px}
+  .meta{display:flex;align-items:center;gap:12px;font-size:13.5px;color:#d2d2d2;margin-bottom:16px;flex-wrap:wrap}
+  .meta .dot{width:3px;height:3px;border-radius:50%;background:#8a8a8a}
+  .hd{border:1px solid #7a7a7a;border-radius:3px;padding:0 4px;font-size:10.5px;font-weight:700;color:#cfcfcf}
+  .syn{
+    font-size:15.5px;line-height:1.55;color:#e8e8e8;margin-bottom:24px;
+    text-shadow:0 2px 12px rgba(0,0,0,.7);max-width:560px;
+  }
+  .syn b{color:#fff}
+  .actions{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:12px 26px;border-radius:5px;font-size:16px;font-weight:700;
+    transition:transform .12s,background .2s,opacity .2s;
+  }
+  .btn:active{transform:scale(.97)}
+  .btn-play{background:#fff;color:#000}
+  .btn-play:hover{background:#e6e6e6}
+  .btn-dl{background:rgba(109,109,110,.55);color:#fff;backdrop-filter:blur(4px)}
+  .btn-dl:hover{background:rgba(109,109,110,.35)}
+  .btn svg{width:22px;height:22px}
+
+  /* ---------- ROWS ---------- */
+  section{padding:0 4%;margin-bottom:44px;position:relative;z-index:3}
+  .row-title{
+    font-size:19px;font-weight:700;margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .row-title .count{font-size:12.5px;font-weight:500;color:#8f8f8f}
+  .cards{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+  .cards::-webkit-scrollbar{display:none}
+  .card{
+    position:relative;flex:0 0 auto;width:300px;border-radius:6px;overflow:hidden;
+    background:#222;transition:transform .25s ease,box-shadow .25s;
+    cursor:pointer;
+  }
+  .card:hover{transform:scale(1.045);box-shadow:0 12px 32px rgba(0,0,0,.65);z-index:5}
+  .card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+  .card .grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 55%)}
+  .card .label{position:absolute;left:12px;bottom:10px;right:12px}
+  .card .epno{font-size:11px;font-weight:800;letter-spacing:1.2px;color:#d4d4d4;margin-bottom:3px}
+  .card .eptitle{font-size:14px;font-weight:700;line-height:1.25}
+  .card .epmeta{font-size:11.5px;color:#a5a5a5;margin-top:4px}
+  .card .playhint{
+    position:absolute;inset:0;display:grid;place-items:center;
+    background:rgba(0,0,0,.35);opacity:0;transition:opacity .2s;
+  }
+  .card:hover .playhint{opacity:1}
+  .playhint .circle{
+    width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.92);
+    display:grid;place-items:center;
+  }
+  .playhint .circle svg{width:22px;height:22px;fill:#000;margin-left:3px}
+
+  .about{max-width:760px;font-size:14.5px;line-height:1.7;color:#b9b9b9}
+  .about strong{color:#fff}
+  .about .kv{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;font-size:13.5px}
+  .about .kv span{color:#8f8f8f}
+  .about .kv b{color:#e5e5e5;font-weight:600}
+
+  footer{
+    padding:40px 4% 60px;border-top:1px solid #262626;margin-top:20px;
+    font-size:12.5px;color:#7a7a7a;line-height:1.9;
+  }
+  footer a{color:#9a9a9a;text-decoration:underline}
+
+  /* ---------- PLAYER ---------- */
+  .player{
+    position:fixed;inset:0;z-index:100;background:#000;
+    display:none;flex-direction:column;
+  }
+  .player.on{display:flex}
+  .player-top{
+    display:flex;align-items:center;gap:16px;padding:16px 22px;
+    background:linear-gradient(180deg,rgba(0,0,0,.9),transparent);
+    position:absolute;top:0;left:0;right:0;z-index:5;
+  }
+  .back{
+    display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:#fff;
+    background:none;padding:6px 4px;opacity:.9;
+  }
+  .back:hover{opacity:1}
+  .back svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2.2}
+  .player-title{font-size:15px;font-weight:600;color:#ddd}
+  video{width:100%;height:100%;object-fit:contain;background:#000}
+
+  @media (max-width:760px){
+    .navlinks{display:none}
+    .hero{min-height:78vh;padding-bottom:60px}
+    .card{width:240px}
+    .btn{padding:11px 20px;font-size:15px}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="logo">GATE<span>FLIX</span></div>
+  <div class="navlinks">
+    <a href="#" class="active">Home</a>
+    <a href="#episodes">Series</a>
+    <a href="#about">About</a>
+    <a href="#episodes">My List</a>
+  </div>
+  <div class="navright">
+    <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <svg class="icon" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+    <div class="avatar">NG</div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="badge-row">
+      <span class="n-badge">N SERIES</span>
+      <span class="rank">#1 in Anime Today</span>
+    </div>
+    <h1>GATE</h1>
+    <div class="meta">
+      <span>2026</span><span class="dot"></span>
+      <span>Season 1</span><span class="dot"></span>
+      <span>1 Episode</span><span class="dot"></span>
+      <span class="hd">HD</span>
+      <span>Hindi</span>
+    </div>
+    <p class="syn">
+      Tokyo ke Ginza mein ek rahasya mayi darwaza khulta hai — aur uske paar se
+      ek purani duniya ki sena nikal aati hai. <b>Second Lieutenant Youji Itami</b>
+      ek otaku hai jo us darwaze ke paar nikalne wale pehle logon mein shamil ho jaata hai.
+    </p>
+    <div class="actions">
+      <button class="btn btn-play" onclick="play()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Play
+      </button>
+      <a class="btn btn-dl" href="gate-ep1.mp4" download="GATE-S01E01-Hindi.mp4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 21h16"/></svg>
+        Download
+      </a>
+    </div>
+  </div>
+</header>
+
+<section id="episodes">
+  <div class="row-title">Episodes <span class="count">Season 1 · 1 episode</span></div>
+  <div class="cards">
+    <div class="card" onclick="play()">
+      <img src="thumb2.jpg" alt="Episode 1" />
+      <div class="grad"></div>
+      <div class="playhint"><div class="circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      <div class="label">
+        <div class="epno">E1</div>
+        <div class="eptitle">The Self-Defense Force Goes to Another World</div>
+        <div class="epmeta">23m · Hindi dubbed · 480p</div>
+      </div>
+    </div>
+    <div class="card" onclick="play()">
+      <img src="thumb.jpg" alt="Episode 1 still" />
+      <div class="grad"></div>
+      <div class="playhint"><div class="circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      <div class="label">
+        <div class="epno">E1 · SCENE</div>
+        <div class="eptitle">Two Worlds, One Path</div>
+        <div class="epmeta">Highlight · 2m</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="row-title">About <span class="count">GATE: Jieitai Kanochi nite, Kaku Tatakaeri</span></div>
+  <div class="about">
+    <p>
+      Japan ki Self-Defense Force ka ek darwaza khulta hai jo seedha ek fantasy duniya
+      mein jaata hai — dragons, elves aur empires ke beech. Episode 1 mein woh darwaza
+      khulta hai, Ginza par hamla hota hai, aur ek aam otaku officer, Youji Itami,
+      bina plan ke hero ban jaata hai.
+    </p>
+    <div class="kv">
+      <span>Audio:</span><b>Hindi (AI dubbed)</b>
+      <span>·</span>
+      <span>Captions:</span><b>English (burned in)</b>
+      <span>·</span>
+      <span>Quality:</span><b>854×480</b>
+      <span>·</span>
+      <span>Size:</span><b>71 MB</b>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><b>GATEFLIX</b> — ek personal streaming page, sirf demo ke liye banaya gaya.</p>
+  <p>GATE: Jieitai Kanochi nite, Kaku Tatakaeri © respective rights holders. Yeh page kisi bhi tarah ka commercial use nahi karta.</p>
+  <p>Hindi voice AI-generated hai (Piper TTS). English captions video mein burned hain.</p>
+</footer>
+
+<div class="player" id="player">
+  <div class="player-top">
+    <button class="back" onclick="closePlayer()">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <div class="player-title">GATE · S1 E1 · Hindi</div>
+  </div>
+  <video id="vid" controls playsinline preload="metadata" poster="hero.jpg">
+    <source src="gate-ep1.mp4" type="video/mp4" />
+    Aapka browser video support nahi karta. <a href="gate-ep1.mp4">Download</a> kar lo.
+  </video>
+</div>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('solid', window.scrollY > 40);
+  });
+
+  const player = document.getElementById('player');
+  const vid = document.getElementById('vid');
+
+  function play(){
+    player.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    vid.currentTime = 0;
+    vid.play().catch(()=>{});
+  }
+  function closePlayer(){
+    player.classList.remove('on');
+    document.body.style.overflow = '';
+    vid.pause();
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && player.classList.contains('on')) closePlayer();
+  });
+  // smooth scroll for nav anchors
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', ev=>{
+      const t = document.querySelector(a.getAttribute('href'));
+      if(t){ ev.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+</script>
+</body>
+</html>
